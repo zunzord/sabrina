@@ -53,21 +53,21 @@ a{color:inherit}
 #bebe .etapa{opacity:0; transition:opacity .7s}
 #bebe .etapa.viva{opacity:1}
 #bebe path,#bebe circle,#bebe ellipse{
-  fill:none; stroke:var(--ambar); stroke-width:1.55; stroke-linecap:round; stroke-linejoin:round;
+  fill:none; stroke:#C98A5E; stroke-width:1.15; stroke-linecap:round; stroke-linejoin:round;
 }
 /* El cuerpo, la cola y los miembros van rellenos: dan presencia de silueta.
    Los rasgos (somitas, ojos, dedos, párpados) llevan clase y quedan sin
    relleno, que es lo que hace legible cada semana. */
-#bebe .etapa path:not([class]),#bebe .etapa .miembro{fill:rgba(241,207,171,.34)}
-#bebe .fino{stroke-width:1.05}
+#bebe .etapa path:not([class]),#bebe .etapa .miembro{fill:rgba(246,222,192,.72)}
+#bebe .fino{stroke-width:.9; stroke:#B8764F}
 #bebe .grueso{stroke-width:3.2}
-#bebe .punteado{stroke-dasharray:1.7 1.9}
-#bebe .pun{fill:var(--ambar); stroke:none}
+#bebe .punteado{stroke-dasharray:1.7 1.9; stroke:#B8764F; opacity:.75}
+#bebe .pun{fill:#8C5638; stroke:none}
 /* El saco: el anillo que envuelve cada etapa. Es el recurso que hace que una
    lámina de gestación se lea de un vistazo. */
-#bebe .saco{fill:rgba(224,161,107,.09); stroke:none}
-#bebe .saco-borde{fill:none; stroke:rgba(224,161,107,.32); stroke-width:1.1}
-#bebe .saco-int{fill:none; stroke:rgba(224,161,107,.16); stroke-width:.8}
+#bebe .saco{fill:rgba(201,138,94,.26); stroke:none}
+#bebe .saco-borde{fill:none; stroke:rgba(224,161,107,.45); stroke-width:1.3}
+#bebe .saco-int{fill:none; stroke:rgba(246,222,192,.20); stroke-width:5}
 #bebe text{
   font-family:'DM Sans',sans-serif; font-size:10px; letter-spacing:2.2px;
   text-transform:uppercase; fill:var(--ambar); text-anchor:middle;
@@ -193,10 +193,10 @@ main{position:relative; z-index:2}
 #red .criatura .grueso{stroke-width:3}
 #red .criatura .punteado{stroke-dasharray:1.7 1.9}
 #red .criatura .pun{fill:var(--vino); stroke:none}
-#red .criatura .saco{fill:rgba(140,59,82,.06); stroke:none}
+#red .criatura .saco{fill:rgba(185,118,94,.20); stroke:none}
 #red .criatura .saco-borde{fill:none; stroke:rgba(140,59,82,.28); stroke-width:1}
-#red .criatura .saco-int{fill:none; stroke:rgba(140,59,82,.14); stroke-width:.7}
-#red .criatura path:not([class]),#red .criatura .miembro{fill:rgba(140,59,82,.13)}
+#red .criatura .saco-int{fill:none; stroke:rgba(250,242,231,.55); stroke-width:4}
+#red .criatura path:not([class]),#red .criatura .miembro{fill:rgba(241,207,171,.85)}
 @media (max-width:640px){ #red .rot{display:none} #red .letra{font-size:32px} }
 
 /* ---------------------------------------------------------------- regalos */
