@@ -225,6 +225,12 @@ main{position:relative; z-index:2}
 .via .tallas{display:flex; flex-wrap:wrap; gap:16px; margin-top:16px; font-size:.86rem;
              color:var(--oscuro-suave)}
 .via .tallas span{border-bottom:1px solid rgba(34,26,38,.3); padding-bottom:2px}
+/* La aclaración del nombre en PayPal: lo bastante visible para que nadie dude,
+   lo bastante callada para que no parezca un aviso legal. */
+.via .apunte-pago{
+  font-size:.85rem; color:var(--oscuro-suave); margin-top:12px; padding-left:14px;
+  border-left:1px solid rgba(140,59,82,.35); max-width:48ch;
+}
 .ir{
   display:inline-flex; align-items:center; gap:9px; margin-top:20px; text-decoration:none;
   font-size:.94rem; font-weight:400; border-bottom:1.5px solid var(--vino);
@@ -318,7 +324,15 @@ main{position:relative; z-index:2}
   #bebe{display:none}
 }
 </style>
-
+<script data-goatcounter="https://zunzo.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+document.addEventListener('click', function(e){
+  var el = e.target.closest && e.target.closest('[data-evento]');
+  if (!el) return;
+  var n = el.getAttribute('data-evento');
+  if (window.goatcounter && goatcounter.count) goatcounter.count({path:n, title:n, event:true});
+}, true);
+</script>
 </head>
 <body>
 
@@ -531,6 +545,21 @@ main{position:relative; z-index:2}
 
   <div class="via">
     <div class="cifra">04</div>
+    <div>
+      <span class="donde">Si prefieres no escoger</span>
+      <h3>Poner algo para la cuna</h3>
+      <p>Hay gente que me ha preguntado si mejor pone un aporte y listo, sin andar buscando
+      qué. Se puede, y lo estoy juntando para una sola cosa: <strong>la cuna</strong>. No hace
+      falta que sea nada grande, y tampoco llevo cuenta de quién puso qué.</p>
+      <p class="apunte-pago">Se abre PayPal y aparece a nombre de <strong>Eniel</strong>, que
+      es mi esposo. Es la misma casa, no te has equivocado de página.</p>
+      <a class="ir" href="https://paypal.me/enielnicolas" target="_blank" rel="noopener" data-evento="aporte-paypal">Poner algo para la cuna
+        <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </div>
+
+  <div class="via">
+    <div class="cifra">05</div>
     <div>
       <span class="donde">Sin gastar nada</span>
       <h3>Escríbele algo a Sabrina</h3>
