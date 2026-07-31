@@ -535,12 +535,12 @@ main{position:relative; z-index:2}
 
 <!-- ==================================================== la red -->
 <section id="constelacion">
-  <span class="rotulo">Y así llega</span>
-  <h2>Todo esto la sostiene</h2>
-  <p class="pie">Siete cordones, uno por cada letra. Al final del recorrido todos llegan al
-  mismo sitio.</p>
+  <span class="rotulo">Y así se hizo</span>
+  <h2>De aquí está hecha</h2>
+  <p class="pie">Nada de lo que leíste es un adorno. Es la esencia de donde salió Sabrina:
+  cada letra le puso algo, y todo eso terminó en ella.</p>
   <svg id="red" viewBox="0 0 760 500" role="img"
-       aria-label="Siete cordones, uno por cada letra del nombre, que bajan hasta la bebé">
+       aria-label="Cada letra del nombre unida a la bebé por un cordón">
     <g id="redCordones"></g>
     <g id="redAnclas"></g>
     <g class="criatura" id="redBebe" transform="translate(380,384) scale(2.0)"><g class="etapa" data-etapa="7" data-semana="Semana 40" data-mm="a término" data-clave="Lista para nacer">
@@ -832,7 +832,13 @@ main{position:relative; z-index:2}
       // sería invisible. Se comprime el crecimiento y el tamaño de verdad se
       // dice en el rótulo, que es la manera honesta de resolverlo.
       var esc = 0.62 + p * 0.92;
-      figura.setAttribute('transform', 'scale(' + esc.toFixed(3) + ')');
+      // gira para ir de cabeza por el cordón, como el descenso de verdad.
+      // La tangente se toma sobre un tramo largo para que no dé tumbos.
+      var d1 = base.getPointAtLength(Math.max(0, lb * p - lb * 0.02));
+      var d2 = base.getPointAtLength(Math.min(lb, lb * p + lb * 0.02));
+      var giro = Math.atan2(d2.y - d1.y, d2.x - d1.x) * 180 / Math.PI + 90;
+      figura.setAttribute('transform',
+        'rotate(' + giro.toFixed(1) + ') scale(' + esc.toFixed(3) + ')');
       var idx = etapaEn(p);
       etapas.forEach(function(g, i){
         if (i === idx) g.classList.add('viva'); else g.classList.remove('viva');
