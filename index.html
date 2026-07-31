@@ -17,7 +17,7 @@
 :root{
   --noche:#0C0F1A; --noche2:#161C30; --malva:#3B3350; --ciruela:#6E4A5C;
   --tierra:#B9765E; --ambar:#E0A16B; --durazno:#F1CFAB; --papel:#FAF2E7;
-  --tinta:#191320; --vino:#8C3B52; --verde:#6E8168;
+  --vino:#8C3B52; --verde:#6E8168;
   --claro:#F6EEE4; --claro-suave:rgba(246,238,228,.62);
   --oscuro:#221A26; --oscuro-suave:rgba(34,26,38,.66);
 }
@@ -27,12 +27,10 @@ html{scroll-behavior:smooth; -webkit-text-size-adjust:100%}
    propaga al lienzo raíz y lo estira, y las secciones caen en el color
    equivocado (además de dejar una franja suelta al final). */
 html{
-  /* la noche se abre exactamente donde terminan las siete letras (~55%),
-     no al final de la página */
   background:linear-gradient(180deg,
-    var(--noche) 0%, #10162A 12%, var(--noche2) 24%, var(--malva) 34%,
-    var(--ciruela) 44%, var(--tierra) 49%, var(--ambar) 53%,
-    var(--durazno) 57%, var(--papel) 62%, var(--papel) 100%);
+    var(--noche) 0%, #10162A 11%, var(--noche2) 22%, var(--malva) 31%,
+    var(--ciruela) 40%, var(--tierra) 45%, var(--ambar) 49%,
+    var(--durazno) 53%, var(--papel) 58%, var(--papel) 100%);
   background-repeat:no-repeat; background-size:100% 100%;
 }
 body{
@@ -43,14 +41,24 @@ body{
 h1,h2,h3,.glifo,.cifra{font-family:'Fraunces',Georgia,serif; font-weight:400; line-height:1.05}
 a{color:inherit}
 
-/* ------------------------------------------------------------- el trazo */
+/* --------------------------------------------------------------- el cordón */
 #lienzo{position:absolute; top:0; left:0; width:100%; z-index:0; pointer-events:none; overflow:visible}
-#trazo{fill:none; stroke:rgba(246,238,228,.22); stroke-width:1.4; stroke-linecap:round;
-       vector-effect:non-scaling-stroke}
-#trazoVivo{fill:none; stroke:#E0A16B; stroke-width:2.2; stroke-linecap:round;
-           vector-effect:non-scaling-stroke; filter:drop-shadow(0 0 7px rgba(224,161,107,.55))}
-#huella{opacity:0; transition:opacity .5s}
-#huella.va{opacity:1}
+#cordonBase{fill:none; stroke:rgba(224,161,107,.16); stroke-width:7; stroke-linecap:round;
+            vector-effect:non-scaling-stroke}
+.hebra{fill:none; stroke:var(--ambar); stroke-width:2.1; stroke-linecap:round;
+       vector-effect:non-scaling-stroke; opacity:.92}
+#hebra2{stroke:var(--tierra); opacity:.8}
+#bebe{opacity:0; transition:opacity .6s}
+#bebe.va{opacity:1}
+#bebe g{transition:opacity .55s}
+#bebe .etapa{opacity:0}
+#bebe .etapa.viva{opacity:1}
+#bebe path,#bebe circle,#bebe ellipse{
+  fill:none; stroke:var(--ambar); stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round;
+  vector-effect:non-scaling-stroke;
+}
+#bebe .pun{fill:var(--ambar); stroke:none}
+#bebe .halo{fill:rgba(224,161,107,.14); stroke:none}
 
 /* -------------------------------------------------------- navegación letras */
 nav{
@@ -112,10 +120,10 @@ nav .regalo.aqui{transform:scale(1.35)}
 /* ------------------------------------------------------------- estaciones */
 main{position:relative; z-index:2}
 .estacion{
-  min-height:84vh; display:flex; align-items:center;
+  min-height:88vh; display:flex; align-items:center;
   padding:7vh clamp(22px,6vw,80px); position:relative;
 }
-.estacion .caja{max-width:min(430px,86vw); position:relative}
+.estacion .caja{max-width:min(440px,86vw); position:relative}
 .estacion.dcha{justify-content:flex-end}
 .estacion.dcha .caja{text-align:right}
 .glifo{
@@ -129,24 +137,18 @@ main{position:relative; z-index:2}
   font-size:.62rem; letter-spacing:.34em; text-transform:uppercase;
   display:block; margin-bottom:18px; opacity:.72;
 }
-.estacion h2{font-size:clamp(1.7rem,5.6vw,2.7rem); margin-bottom:22px; font-weight:300}
+.estacion h2{font-size:clamp(1.65rem,5.4vw,2.6rem); margin-bottom:22px; font-weight:300}
 .estacion h2 em{font-style:italic}
-.estacion p{font-size:clamp(.96rem,2.5vw,1.06rem); margin-bottom:15px; max-width:44ch}
+.estacion p{font-size:clamp(.96rem,2.5vw,1.06rem); margin-bottom:15px; max-width:45ch}
 .estacion.dcha p{margin-left:auto}
 .apunte{
-  font-size:.86rem; opacity:.66; border-top:1px solid currentColor; padding-top:14px;
-  margin-top:24px; max-width:38ch;
+  font-size:.86rem; opacity:.7; border-top:1px solid currentColor; padding-top:14px;
+  margin-top:24px; max-width:40ch;
 }
 .estacion.dcha .apunte{margin-left:auto}
-.trazo-doodle{margin-bottom:20px; display:block; opacity:.85}
-.estacion.dcha .trazo-doodle{margin-left:auto}
-.trazo-doodle path,.trazo-doodle circle,.trazo-doodle ellipse,.trazo-doodle line{
-  fill:none; stroke:currentColor; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round;
-}
 .tono-noche{color:var(--claro)}
 .tono-dia{color:var(--oscuro)}
 
-/* aparición */
 .estacion .caja>*{opacity:0; transform:translateY(20px); transition:opacity .8s, transform .8s}
 .estacion .caja>.glifo{transform:none}
 .estacion.dentro .caja>*{opacity:1; transform:none}
@@ -156,10 +158,31 @@ main{position:relative; z-index:2}
 .estacion.dentro .caja>*:nth-child(5){transition-delay:.24s}
 .estacion.dentro .caja>*:nth-child(6){transition-delay:.32s}
 
+/* ------------------------------------------------------------ constelación */
+#constelacion{
+  position:relative; z-index:2; color:var(--oscuro);
+  padding:clamp(40px,8vh,90px) clamp(16px,4vw,60px) clamp(20px,4vh,50px);
+  max-width:960px; margin:0 auto; text-align:center;
+}
+#constelacion .rotulo{color:var(--verde); opacity:1}
+#constelacion h2{font-size:clamp(1.6rem,5vw,2.4rem); font-weight:300; margin-bottom:10px}
+#constelacion .pie{font-size:.94rem; color:var(--oscuro-suave); max-width:46ch;
+                   margin:0 auto clamp(18px,3vh,34px)}
+#red{width:100%; height:auto; display:block; overflow:visible}
+#red .cordon{fill:none; stroke:var(--tierra); stroke-width:1.3; opacity:.55; stroke-linecap:round}
+#red .letra{font-family:'Fraunces',serif; font-size:30px; font-weight:300; fill:var(--vino)}
+#red .rot{font-family:'DM Sans',sans-serif; font-size:9.5px; letter-spacing:1.6px;
+          text-transform:uppercase; fill:var(--verde)}
+#red .criatura path,#red .criatura circle{fill:none; stroke:var(--vino); stroke-width:1.6;
+          stroke-linecap:round; stroke-linejoin:round}
+#red .criatura .pun{fill:var(--vino); stroke:none}
+#red .criatura .halo{fill:rgba(140,59,82,.07); stroke:none}
+@media (max-width:640px){ #red .rot{display:none} #red .letra{font-size:32px} }
+
 /* ---------------------------------------------------------------- regalos */
 #regalos{
   position:relative; z-index:2; color:var(--oscuro);
-  padding:clamp(60px,12vh,120px) clamp(22px,6vw,80px) 40px;
+  padding:clamp(50px,9vh,100px) clamp(22px,6vw,80px) 40px;
   max-width:900px; margin:0 auto;
 }
 #regalos .encabeza{max-width:52ch; margin-bottom:clamp(40px,7vh,72px)}
@@ -236,10 +259,10 @@ main{position:relative; z-index:2}
   nav button.aqui{transform:scale(1.45)}
   nav button.aqui:after{left:50%; top:auto; bottom:-2px; transform:translateX(-50%)}
   nav .regalo{margin:0 0 0 6px}
-  .estacion{padding-left:26px; padding-right:26px; min-height:78vh}
+  .estacion{padding-left:26px; padding-right:26px; min-height:80vh}
   .estacion.dcha{justify-content:flex-start}
   .estacion.dcha .caja{text-align:left}
-  .estacion.dcha p,.estacion.dcha .apunte,.estacion.dcha .trazo-doodle{margin-left:0}
+  .estacion.dcha p,.estacion.dcha .apunte{margin-left:0}
   .estacion.dcha .glifo{right:auto; left:-.13em}
   body{padding-bottom:56px}
   .via{grid-template-columns:1fr; gap:4px}
@@ -250,22 +273,64 @@ main{position:relative; z-index:2}
   #nombre span,.estacion .caja>*{animation:none!important; opacity:1!important; transform:none!important}
   .estacion .glifo{opacity:.07!important}
   #portada .pista{animation:none}
-  #huella{display:none}
+  #bebe{display:none}
 }
 </style>
 </head>
 <body>
 
 <svg id="lienzo" aria-hidden="true">
-  <path id="trazo"></path>
-  <path id="trazoVivo"></path>
-  <g id="huella">
-    <g transform="translate(-11,-11)" fill="#E0A16B">
-      <ellipse cx="11" cy="14.5" rx="5.4" ry="4.6" stroke="none"/>
-      <ellipse cx="4.6" cy="7.4" rx="2.5" ry="3.1" stroke="none"/>
-      <ellipse cx="9.2" cy="4.4" rx="2.4" ry="3.2" stroke="none"/>
-      <ellipse cx="14.2" cy="5.1" rx="2.4" ry="3.1" stroke="none"/>
-      <ellipse cx="18.2" cy="9.2" rx="2.3" ry="2.8" stroke="none"/>
+  <path id="cordonBase"></path>
+  <path id="hebra1" class="hebra"></path>
+  <path id="hebra2" class="hebra"></path>
+
+  <!-- La criatura viaja por el cordón y va cambiando de etapa al bajar -->
+  <g id="bebe">
+    <g class="etapa" data-etapa="0"><!-- las primeras células -->
+      <circle class="halo" cx="0" cy="0" r="15"/>
+      <circle cx="0" cy="0" r="9"/>
+      <circle cx="-3.2" cy="-2.2" r="2.5"/><circle cx="2.4" cy="-3.4" r="2.1"/>
+      <circle cx="3.2" cy="2.4" r="2.7"/><circle cx="-2.2" cy="3.4" r="2.1"/>
+    </g>
+    <g class="etapa" data-etapa="1"><!-- embrión -->
+      <circle class="halo" cx="0" cy="0" r="15"/>
+      <circle cx="2.6" cy="-4.2" r="5.6"/>
+      <path d="M-2.4,-1.2 C-8,3 -6,9.4 0.4,9.8"/>
+      <circle class="pun" cx="4.6" cy="-4.8" r="1"/>
+    </g>
+    <g class="etapa" data-etapa="2"><!-- se dibujan los brotes -->
+      <circle class="halo" cx="0" cy="0" r="16"/>
+      <circle cx="3" cy="-5.2" r="6.1"/>
+      <path d="M-2.2,-1 C-8.4,3.4 -7,10.4 1.2,10.4 C6.4,10.4 8.6,7.2 7.4,3.4"/>
+      <path d="M-3,3.6 L-6.8,5.8"/><path d="M2.4,10.4 L1.4,14"/>
+      <circle class="pun" cx="5.2" cy="-5.8" r="1"/>
+    </g>
+    <g class="etapa" data-etapa="3"><!-- feto -->
+      <circle class="halo" cx="0" cy="0" r="17"/>
+      <circle cx="3.2" cy="-6" r="6.6"/>
+      <path d="M-2.6,-2 C-9,3.2 -7,11.2 2,11.2 C8.2,11.2 9.8,7 8.2,3.6"/>
+      <path d="M-2,2 C-6.2,3 -7.2,6.2 -5,8.4"/>
+      <path d="M4,11.4 C4,14.6 2,16.6 -1,16.2"/>
+      <circle class="pun" cx="5.6" cy="-6.6" r="1.05"/>
+    </g>
+    <g class="etapa" data-etapa="4"><!-- ya casi -->
+      <circle class="halo" cx="0" cy="0" r="19"/>
+      <circle cx="3.2" cy="-6.6" r="7.6"/>
+      <path d="M-3,-2 C-10,4 -8,12.2 2,12.2 C9,12.2 11,8 9,4"/>
+      <path d="M-2,1 C-7,2 -8,6 -5,8.6"/>
+      <path d="M4,12.4 C4,15.8 1.6,17.8 -2,17.2"/>
+      <circle class="pun" cx="5.8" cy="-7.2" r="1.1"/>
+      <path d="M0.6,-3.6 C1.8,-2.6 3,-2.6 4.2,-3.6"/>
+    </g>
+    <g class="etapa" data-etapa="5"><!-- Sabrina -->
+      <circle class="halo" cx="0" cy="0" r="20"/>
+      <circle cx="0" cy="-7" r="7.2"/>
+      <path d="M-9.4,2.2 C-9.4,-2 -4.4,-1 0,-1 C4.4,-1 9.4,-2 9.4,2.2
+               C9.4,9.4 4.4,12.4 0,12.4 C-4.4,12.4 -9.4,9.4 -9.4,2.2Z"/>
+      <circle class="pun" cx="-2.6" cy="-7.6" r=".95"/>
+      <circle class="pun" cx="2.6" cy="-7.6" r=".95"/>
+      <path d="M-2.2,-4.4 C-0.6,-3.1 0.6,-3.1 2.2,-4.4"/>
+      <path d="M-5.6,-11.4 C-4.6,-14.4 -1.6,-14.4 -0.8,-12.2"/>
     </g>
   </g>
 </svg>
@@ -284,47 +349,35 @@ main{position:relative; z-index:2}
 
 <main>
 
-  <section class="estacion izda tono-noche" data-letra="S" data-rotulo="El nombre">
+  <section class="estacion izda tono-noche" data-letra="S" data-rotulo="El nombre" data-corto="el nombre">
     <div class="caja">
       <span class="glifo" aria-hidden="true">S</span>
       <span class="rotulo">S &middot; el nombre</span>
-      <svg class="trazo-doodle" width="46" height="30" viewBox="0 0 46 30" aria-hidden="true">
-        <path d="M2 22c6-14 13 6 19-4s10 8 16-2"/><circle cx="41" cy="7" r="2.4"/>
-      </svg>
-      <h2>Me lo <em>soñé</em></h2>
-      <p>Me desperté una mañana con el nombre puesto. No lo busqué en ninguna lista ni lo
-      andaba pensando: apareció dormida, y cuando abrí los ojos ya se llamaba Sabrina.</p>
-      <p>Se lo dije a Eniel todavía medio dormida. No discutió.</p>
+      <h2>¡Me lo <em>soñé</em>!</h2>
+      <p>Me desperté una mañana con el nombre grabado en mi mente. No lo pensé, tampoco lo
+      busqué: se impregnó en mis sueños, y cuando abrí los ojos ya se llamaba Sabrina.</p>
+      <p>Se lo dije a Eniel todavía medio dormida. Sin oposición.</p>
     </div>
   </section>
 
-  <section class="estacion dcha tono-noche" data-letra="a" data-rotulo="Las madrugadas">
+  <section class="estacion dcha tono-noche" data-letra="a" data-rotulo="Las madrugadas" data-corto="las madrugadas">
     <div class="caja">
       <span class="glifo" aria-hidden="true">a</span>
       <span class="rotulo">A &middot; las madrugadas</span>
-      <svg class="trazo-doodle" width="44" height="30" viewBox="0 0 44 30" aria-hidden="true">
-        <path d="M13 15a8.4 8.4 0 1 0 8.4-8.4A9.6 9.6 0 0 0 13 15Z"/>
-        <path d="M32 6l1.5 3.3L37 11l-3.5 1.7L32 16l-1.5-3.3L27 11l3.5-1.7Z"/>
-      </svg>
-      <h2>Doy clases <em>antes</em> de que amanezca</h2>
-      <p>Varios días de la semana me levanto cuando todavía está oscuro, porque mi primera
-      clase es tempranísimo. Nadie despierto, la casa fría, el café.</p>
-      <p>Suena sacrificado y a veces lo es. Pero esa hora, con la ciudad todavía apagada, es
-      lo más tranquilo que tengo en el día.</p>
-      <div class="apunte">Los zapatos se quedan en la entrada. Adentro no entra nada que haya
-      pisado la calle.</div>
+      <h2>Antes de que <em>salga el sol</em></h2>
+      <p>Casi todos los días de la semana me levanto cuando todavía está oscuro, porque mis
+      clases inician antes de que cante el gallo. Todo empieza conmigo y un buen café.</p>
+      <p>Suena duro y lo es. Pero a esa hora, con la ciudad todavía soñando, puedo realmente
+      sentirme viva.</p>
+      <div class="apunte">Un datito curioso sobre mí: los zapatos hasta la entrada. En casita
+      no permito zapatos de la calle. Eniel todavía lidia con eso.</div>
     </div>
   </section>
 
-  <section class="estacion izda tono-noche" data-letra="b" data-rotulo="Brownie">
+  <section class="estacion izda tono-noche" data-letra="b" data-rotulo="Brownie" data-corto="Brownie">
     <div class="caja">
       <span class="glifo" aria-hidden="true">b</span>
       <span class="rotulo">B &middot; Brownie</span>
-      <svg class="trazo-doodle" width="50" height="30" viewBox="0 0 50 30" aria-hidden="true">
-        <path d="M8 21c0-5 4-8.5 9.5-8.5S27 16 27 21"/><path d="M8 21c-3-1-4.6-4-3.6-7"/>
-        <path d="M27 21c3 1 5.6-1 6.6-4"/><circle cx="14" cy="17" r="1.1"/>
-        <path d="M39 21c1-6.5 6-9.5 9.5-5.5"/>
-      </svg>
       <h2>No la escogí, <em>la vi</em></h2>
       <p>Brownie es rescatada. Aquí a los perros como ella les decimos caramelo, que es la
       manera bonita de decir que no tiene raza y que no le hace falta.</p>
@@ -334,78 +387,86 @@ main{position:relative; z-index:2}
     </div>
   </section>
 
-  <section class="estacion dcha tono-noche" data-letra="r" data-rotulo="La música">
+  <section class="estacion dcha tono-noche" data-letra="r" data-rotulo="Que ruja" data-corto="que ruja">
     <div class="caja">
       <span class="glifo" aria-hidden="true">r</span>
-      <span class="rotulo">R &middot; la música</span>
-      <svg class="trazo-doodle" width="44" height="30" viewBox="0 0 44 30" aria-hidden="true">
-        <path d="M16 21V7l13-3.2V18"/><circle cx="12" cy="21" r="4"/><circle cx="25" cy="18" r="4"/>
-      </svg>
-      <h2>La gente me ve y <em>asume baladas</em></h2>
-      <p>Y sí, baladas. Pero también rock. Y metal, con el volumen donde debe estar. A más de
-      uno le he cambiado la cara cuando pongo lo que de verdad estaba oyendo.</p>
+      <span class="rotulo">R &middot; ¡que ruja!</span>
+      <h2>La gente me ve y asume <em>Taylor Swift</em></h2>
+      <p>Y sí, Swiftie. Pero también rock. Y metal, con el volumen alto para mí. Eniel siempre
+      la escucha bajita. A más de uno le he cambiado la cara cuando pongo lo que de verdad
+      estaba oyendo.</p>
       <p>Lo único que no me pongan: reguetón y bachata. Ahí sí me pierden.</p>
     </div>
   </section>
 
-  <section class="estacion izda tono-noche" data-letra="i" data-rotulo="Las cucarachas">
+  <section class="estacion izda tono-noche" data-letra="i" data-rotulo="Imposible con las cucarachas" data-corto="las cucarachas">
     <div class="caja">
       <span class="glifo" aria-hidden="true">i</span>
-      <span class="rotulo">I &middot; las cucarachas</span>
-      <svg class="trazo-doodle" width="48" height="30" viewBox="0 0 48 30" aria-hidden="true">
-        <ellipse cx="19" cy="16" rx="7" ry="9"/><path d="M19 7V3"/><path d="M15 5l-3-3"/>
-        <path d="M23 5l3-3"/><path d="M12 11L6 8"/><path d="M12 16H5"/><path d="M12 21l-6 3"/>
-        <path d="M26 11l6-3"/><path d="M26 16h7"/><path d="M26 21l6 3"/>
-      </svg>
+      <span class="rotulo">I &middot; imposible soportar a las cucarachas</span>
       <h2>Grito. <em>Grito y salgo corriendo.</em></h2>
-      <p>Es un miedo que no se puede explicar con lógica. Veo una y el cuerpo decide por mí
-      antes de que yo alcance a pensar nada.</p>
-      <p>En esta casa hay más de diez insecticidas repartidos, uno por cada rincón donde se me
-      pueda aparecer. Y Eniel, que en ese momento se cree un héroe de verdad, sale con el
-      pecho inflado a rescatar a la princesa.</p>
-      <div class="apunte">Se lo dejo tener. Le gusta demasiado.</div>
+      <p>Es un miedo que no se puede explicar. Veo una y el cuerpo decide por mí antes de que
+      yo alcance a pensar nada.</p>
+      <p>El arma de reglamento en mi casa son los insecticidas, repartidos por tooooda la
+      casa. Uno por cada rincón donde se me pueda aparecer. Ahí es donde Eniel se cree héroe
+      de verdad, sacando el pecho cada vez que su princesa solicita su rescate.</p>
+      <div class="apunte">A nosotras nos encanta sentirnos protegidas.</div>
     </div>
   </section>
 
-  <section class="estacion dcha tono-noche" data-letra="n" data-rotulo="La noche">
+  <section class="estacion dcha tono-noche" data-letra="n" data-rotulo="La noche" data-corto="la noche">
     <div class="caja">
       <span class="glifo" aria-hidden="true">n</span>
       <span class="rotulo">N &middot; la noche</span>
-      <svg class="trazo-doodle" width="48" height="30" viewBox="0 0 48 30" aria-hidden="true">
-        <path d="M5 21h30"/><path d="M10 21v-5.5l4.5-5.5h11l4.5 5.5V21"/>
-        <circle cx="14" cy="23" r="2.2"/><circle cx="30" cy="23" r="2.2"/>
-        <path d="M43 7v6"/><path d="M43 17.5v1"/>
-      </svg>
-      <h2>Si salí <em>de noche</em> por ti, es que te quiero</h2>
-      <p>No me gustan las calles llenas y me gusta menos manejar de noche. Me pone tensa, me
+      <h2>Si salí de noche por ti, <em>vales mucho</em></h2>
+      <p>Detesto las calles llenas y me gusta menos manejar de noche. Me pongo tensa, me
       cansa, prefiero no hacerlo.</p>
-      <p>Así que si alguna vez me viste salir manejando ya oscuro por algo tuyo, ya sabes lo
-      que significa. Es la manera más exacta que tengo de medir cuánto quiero a alguien.</p>
+      <p>Así que si alguna vez me viste salir manejando ya oscuro por algo tuyo, grábalo: será
+      un suceso de una vez cada mil años.</p>
     </div>
   </section>
 
-  <section class="estacion izda tono-dia" data-letra="a" data-rotulo="Eniel">
+  <section class="estacion izda tono-dia" data-letra="a" data-rotulo="A donde lleve el viento" data-corto="y Eniel">
     <div class="caja">
       <span class="glifo" aria-hidden="true">a</span>
-      <span class="rotulo">A &middot; y Eniel</span>
-      <svg class="trazo-doodle" width="52" height="30" viewBox="0 0 52 30" aria-hidden="true">
-        <circle cx="11" cy="20" r="5"/><circle cx="38" cy="20" r="5"/><path d="M16 20h9l6-8h6"/>
-        <path d="M25 20l4.5-8"/><path d="M33 12l5 8"/><path d="M45 9c3 2 4 5.5 3 8.5"/>
-      </svg>
-      <h2>Él es lo contrario de <em>complicado</em></h2>
-      <p>Come lo que le pongan. Camina distancias largas por gusto, con los audífonos puestos
-      y sin apuro, como si el camino fuera el plan y no el trámite.</p>
-      <p>Maneja moto, pero no le interesa la velocidad. Dice que es por la brisa. Por esos
-      minutos en que no le debe nada a nadie.</p>
-      <p>Y cuando me ve cansada me acaricia la cabeza, o me da masajitos en los pies sin que
-      se lo pida. Ahí es donde se le nota todo.</p>
+      <span class="rotulo">A &middot; a donde lleve el viento</span>
+      <h2>Eniel es lo contrario de <em>complicado</em></h2>
+      <p>Come lo que le pongan. Camina para donde sea por puro gusto, con los audífonos
+      puestos y sin apuro, como si el camino fuera el plan y no el proceso.</p>
+      <p>Va en su Vino, a toda anti-velocidad. Dice que para disfrutar de la brisita solo se
+      necesita ir a 30.</p>
+      <p>Es un fan de que llegue cansada, para acariciarme la cabeza y darme masajitos en los
+      pies sin que se lo pida. Ahí es donde me enamora.</p>
       <div class="apunte">Este es el mundo al que va a llegar Sabrina. Nosotros dos, bastante
-      distintos, cuidándola.</div>
+      distintos, somos sencillamente el mejor complemento.</div>
     </div>
   </section>
 
 </main>
 
+<!-- ==================================================== la red -->
+<section id="constelacion">
+  <span class="rotulo">Y así llega</span>
+  <h2>Todo esto la sostiene</h2>
+  <p class="pie">Siete cordones, uno por cada letra. Al final del recorrido todos llegan al
+  mismo sitio.</p>
+  <svg id="red" viewBox="0 0 760 500" role="img"
+       aria-label="Siete cordones, uno por cada letra del nombre, que bajan hasta la bebé">
+    <g id="redCordones"></g>
+    <g id="redAnclas"></g>
+    <g class="criatura" id="redBebe" transform="translate(380,388) scale(4.3)">
+      <circle class="halo" cx="0" cy="0" r="20"/>
+      <circle cx="0" cy="-7" r="7.2"/>
+      <path d="M-9.4,2.2 C-9.4,-2 -4.4,-1 0,-1 C4.4,-1 9.4,-2 9.4,2.2
+               C9.4,9.4 4.4,12.4 0,12.4 C-4.4,12.4 -9.4,9.4 -9.4,2.2Z"/>
+      <circle class="pun" cx="-2.6" cy="-7.6" r=".95"/>
+      <circle class="pun" cx="2.6" cy="-7.6" r=".95"/>
+      <path d="M-2.2,-4.4 C-0.6,-3.1 0.6,-3.1 2.2,-4.4"/>
+      <path d="M-5.6,-11.4 C-4.6,-14.4 -1.6,-14.4 -0.8,-12.2"/>
+    </g>
+  </svg>
+</section>
+
+<!-- ==================================================== regalos -->
 <section id="regalos">
   <div class="encabeza">
     <span class="rotulo" style="color:var(--verde)">Y ahora lo práctico</span>
@@ -514,12 +575,15 @@ main{position:relative; z-index:2}
   var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var estaciones = Array.prototype.slice.call(document.querySelectorAll('.estacion'));
   var svg = document.getElementById('lienzo');
-  var base = document.getElementById('trazo');
-  var vivo = document.getElementById('trazoVivo');
-  var huella = document.getElementById('huella');
+  var base = document.getElementById('cordonBase');
+  var h1 = document.getElementById('hebra1');
+  var h2 = document.getElementById('hebra2');
+  var bebe = document.getElementById('bebe');
+  var etapas = Array.prototype.slice.call(bebe.querySelectorAll('.etapa'));
   var nav = document.getElementById('letras');
-  var largo = 0, yIni = 0, yFin = 1;
+  var L1 = 0, L2 = 0, yIni = 0, yFin = 1;
 
+  /* ------------------------------------------------ navegación por letras */
   estaciones.forEach(function(sec){
     var b = document.createElement('button');
     b.type = 'button';
@@ -541,6 +605,7 @@ main{position:relative; z-index:2}
   nav.appendChild(corazon);
   var botones = Array.prototype.slice.call(nav.querySelectorAll('button'));
 
+  /* ------------------------------------------------------------ geometría */
   function suave(pts){
     var d = 'M ' + pts[0][0].toFixed(1) + ' ' + pts[0][1].toFixed(1);
     for (var i = 0; i < pts.length - 1; i++){
@@ -560,6 +625,29 @@ main{position:relative; z-index:2}
     return y;
   }
 
+  /* Dos hebras que se cruzan alrededor del eje: eso es lo que hace que la
+     línea se lea como un cordón y no como un trazo cualquiera. */
+  function trenzar(camino, amplitud, vueltas){
+    var largo = camino.getTotalLength();
+    var n = Math.max(220, Math.round(largo / 12));
+    var a = [], b = [];
+    for (var i = 0; i <= n; i++){
+      var t = i / n;
+      var p = camino.getPointAtLength(largo * t);
+      var q = camino.getPointAtLength(Math.min(largo, largo * t + 1.2));
+      var dx = q.x - p.x, dy = q.y - p.y;
+      var m = Math.sqrt(dx*dx + dy*dy) || 1;
+      var nx = -dy / m, ny = dx / m;              // normal a la curva
+      var s = Math.sin(t * Math.PI * 2 * vueltas) * amplitud;
+      a.push([p.x + nx * s, p.y + ny * s]);
+      b.push([p.x - nx * s, p.y - ny * s]);
+    }
+    function poli(pts){
+      return 'M ' + pts.map(function(p){ return p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join(' L ');
+    }
+    return [poli(a), poli(b)];
+  }
+
   function construir(){
     var W = document.documentElement.clientWidth;
     var H = document.documentElement.scrollHeight;
@@ -573,38 +661,112 @@ main{position:relative; z-index:2}
     estaciones.forEach(function(sec){
       var y = arriba(sec) + sec.offsetHeight * 0.5;
       var izq = sec.classList.contains('izda');
-      // el texto va a un lado, así que la curva pasa por el otro
+      // el texto va a un lado, así que el cordón baja por el otro
       var x = angosto ? (izq ? W*0.955 : W*0.045) : (izq ? W*0.775 : W*0.225);
       pts.push([x, y]);
     });
-    pts.push([W*0.5, arriba(document.getElementById('regalos')) - 30]);
+    pts.push([W*0.5, arriba(document.getElementById('constelacion')) - 20]);
 
     var d = suave(pts);
     base.setAttribute('d', d);
-    vivo.setAttribute('d', d);
-    largo = vivo.getTotalLength();
+
+    var hebras = trenzar(base, angosto ? 5 : 7, estaciones.length * 2.5);
+    h1.setAttribute('d', hebras[0]);
+    h2.setAttribute('d', hebras[1]);
+    L1 = h1.getTotalLength();
+    L2 = h2.getTotalLength();
+    h1.style.strokeDasharray = L1;
+    h2.style.strokeDasharray = L2;
+
+    var lb = base.getTotalLength();
+    base.style.strokeDasharray = lb;
+    base.style.strokeDashoffset = 0;
+
     yIni = pts[0][1];
     yFin = pts[pts.length-1][1];
-    vivo.style.strokeDasharray = largo;
-    if (quieto) vivo.style.strokeDashoffset = 0;
+    if (quieto){ h1.style.strokeDashoffset = 0; h2.style.strokeDashoffset = 0; }
     pintar();
   }
 
   function pintar(){
-    if (!largo || quieto) return;
+    if (!L1 || quieto) return;
     var mira = window.scrollY + window.innerHeight * 0.62;
     var p = (mira - yIni) / (yFin - yIni);
     p = p < 0 ? 0 : (p > 1 ? 1 : p);
-    vivo.style.strokeDashoffset = largo * (1 - p);
+    h1.style.strokeDashoffset = L1 * (1 - p);
+    h2.style.strokeDashoffset = L2 * (1 - p);
+
     if (p > 0.004 && p < 0.999){
-      var pt = vivo.getPointAtLength(largo * p);
-      huella.setAttribute('transform', 'translate(' + pt.x.toFixed(1) + ',' + pt.y.toFixed(1) + ')');
-      huella.classList.add('va');
+      var lb = base.getTotalLength();
+      var pt = base.getPointAtLength(lb * p);
+      var esc = 0.85 + p * 0.75;           // va creciendo con el recorrido
+      bebe.setAttribute('transform',
+        'translate(' + pt.x.toFixed(1) + ',' + pt.y.toFixed(1) + ') scale(' + esc.toFixed(2) + ')');
+      bebe.classList.add('va');
+      var idx = Math.min(etapas.length - 1, Math.floor(p * etapas.length));
+      etapas.forEach(function(g, i){
+        if (i === idx) g.classList.add('viva'); else g.classList.remove('viva');
+      });
     } else {
-      huella.classList.remove('va');
+      bebe.classList.remove('va');
     }
   }
 
+  /* --------------------------------------------------- la red del final */
+  function tejerRed(){
+    var cordones = document.getElementById('redCordones');
+    var anclas = document.getElementById('redAnclas');
+    if (!cordones || cordones.childNodes.length) return;
+    var NS = 'http://www.w3.org/2000/svg';
+    var ombligo = [380, 404];   // el ombligo, no la cabeza
+    estaciones.forEach(function(sec, i){
+      var n = estaciones.length;
+      var x = 62 + (636 * i) / (n - 1);
+      // escalonadas: si van todas a la misma altura, los rótulos se pisan
+      var y = 70 + (i % 2) * 40 + Math.abs(i - (n - 1) / 2) * 14;
+      var c = document.createElementNS(NS, 'path');
+      c.setAttribute('class', 'cordon');
+      c.setAttribute('d', 'M ' + x + ' ' + (y + 26) +
+                     ' C ' + x + ' ' + (y + 150) + ', ' +
+                     ombligo[0] + ' ' + (ombligo[1] - 150) + ', ' +
+                     ombligo[0] + ' ' + ombligo[1]);
+      cordones.appendChild(c);
+
+      var t = document.createElementNS(NS, 'text');
+      t.setAttribute('class', 'letra');
+      t.setAttribute('x', x); t.setAttribute('y', y);
+      t.setAttribute('text-anchor', 'middle');
+      t.textContent = sec.dataset.letra;
+      anclas.appendChild(t);
+
+      var r = document.createElementNS(NS, 'text');
+      r.setAttribute('class', 'rot');
+      r.setAttribute('x', x); r.setAttribute('y', y + 17);
+      r.setAttribute('text-anchor', 'middle');
+      r.textContent = sec.dataset.corto || sec.dataset.rotulo;
+      anclas.appendChild(r);
+    });
+
+    if (quieto) return;
+    var trazos = Array.prototype.slice.call(cordones.querySelectorAll('.cordon'));
+    trazos.forEach(function(c){
+      var l = c.getTotalLength();
+      c.style.strokeDasharray = l;
+      c.style.strokeDashoffset = l;
+      c.style.transition = 'stroke-dashoffset 1.5s ease';
+    });
+    new IntersectionObserver(function(es, ob){
+      es.forEach(function(e){
+        if (!e.isIntersecting) return;
+        trazos.forEach(function(c, i){
+          setTimeout(function(){ c.style.strokeDashoffset = 0; }, i * 170);
+        });
+        ob.disconnect();
+      });
+    }, {threshold: .25}).observe(document.getElementById('constelacion'));
+  }
+
+  /* ------------------------------------------- aparición y letra activa */
   var verObs = new IntersectionObserver(function(entradas){
     entradas.forEach(function(e){ if (e.isIntersecting) e.target.classList.add('dentro'); });
   }, {rootMargin: '0px 0px -16% 0px', threshold: 0.16});
@@ -624,7 +786,7 @@ main{position:relative; z-index:2}
     botones.forEach(function(b, i){
       if (i === idx) b.classList.add('aqui'); else b.classList.remove('aqui');
     });
-    var claro = window.scrollY > document.documentElement.scrollHeight * 0.46;
+    var claro = window.scrollY > document.documentElement.scrollHeight * 0.42;
     if (claro) nav.classList.add('dia'); else nav.classList.remove('dia');
     nav.style.color = claro ? '#221A26' : '#F6EEE4';
   }
@@ -636,13 +798,13 @@ main{position:relative; z-index:2}
     requestAnimationFrame(function(){ pintar(); activa(); pedido = false; });
   }
 
+  function todo(){ construir(); tejerRed(); activa(); }
+
   window.addEventListener('scroll', alScroll, {passive:true});
   window.addEventListener('resize', function(){ construir(); activa(); });
-  if (document.fonts && document.fonts.ready){
-    document.fonts.ready.then(function(){ construir(); activa(); });
-  }
-  window.addEventListener('load', function(){ construir(); activa(); });
-  construir(); activa();
+  if (document.fonts && document.fonts.ready){ document.fonts.ready.then(todo); }
+  window.addEventListener('load', todo);
+  todo();
 })();
 </script>
 </body>
