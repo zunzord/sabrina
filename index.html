@@ -225,12 +225,17 @@ main{position:relative; z-index:2}
 .via .tallas{display:flex; flex-wrap:wrap; gap:16px; margin-top:16px; font-size:.86rem;
              color:var(--oscuro-suave)}
 .via .tallas span{border-bottom:1px solid rgba(34,26,38,.3); padding-bottom:2px}
-/* La aclaración del nombre en PayPal: lo bastante visible para que nadie dude,
-   lo bastante callada para que no parezca un aviso legal. */
+/* Las instrucciones finas: lo bastante visibles para que nadie se trabe,
+   lo bastante calladas para que no parezcan un aviso legal. */
 .via .apunte-pago{
   font-size:.85rem; color:var(--oscuro-suave); margin-top:12px; padding-left:14px;
   border-left:1px solid rgba(140,59,82,.35); max-width:48ch;
 }
+.via .apunte-pago a{
+  color:var(--vino); text-decoration:none;
+  border-bottom:1px solid rgba(140,59,82,.4);
+}
+.via .apunte-pago a:hover{border-bottom-color:var(--vino)}
 .ir{
   display:inline-flex; align-items:center; gap:9px; margin-top:20px; text-decoration:none;
   font-size:.94rem; font-weight:400; border-bottom:1.5px solid var(--vino);
@@ -554,17 +559,18 @@ document.addEventListener('click', function(e){
   <div class="via">
     <div class="cifra">04</div>
     <div>
-      <span class="donde">Si prefieres no escoger</span>
-      <h3>Poner algo para la cuna de Sabrina</h3>
-      <p>Hay gente que me ha preguntado si mejor pone un aporte y listo, sin andar buscando
-      qué. Se puede, y todo lo que entre por ahí va a una sola cosa: <strong>la cuna de
-      Sabrina</strong>. No hace falta que sea nada grande, y tampoco llevo cuenta de quién
-      puso qué.</p>
-      <p class="apunte-pago">Cuando se abra PayPal vas a ver el nombre de <strong>Eniel</strong>:
-      es mi esposo, el papá de Sabrina. Es la misma casa, estás donde tienes que estar. Y si
-      quieres, en la casilla de nota escribe <em>«Para Sabrina»</em>, así sé de parte de quién
-      viene.</p>
-      <a class="ir" href="https://paypal.me/enielnicolas" target="_blank" rel="noopener" data-evento="aporte-paypal">Aportar para la cuna de Sabrina
+      <span class="donde">Si no sabes qué escoger</span>
+      <h3>Una tarjeta de regalo de Amazon</h3>
+      <p>Varias personas me han dicho lo mismo: que no saben qué falta, o que les da miedo
+      comprar algo repetido. Para eso sirve esto. Es una tarjeta del monto que tú quieras,
+      <strong>desde cinco dólares</strong>, y con ella voy completando de la lista lo que se
+      vaya quedando sin cubrir. No se vence nunca, así que tampoco corre prisa.</p>
+      <p class="apunte-pago">Se compra en Amazon y se manda por correo. El mío no lo dejo
+      escrito aquí, que en internet se copia todo:
+      <a href="https://wa.me/18097159922?text=%C2%A1Hola%20Andreina%21%20Quiero%20mandarte%20una%20tarjeta%20de%20regalo%20de%20Amazon%20para%20Sabrina%2C%20%C2%BFa%20qu%C3%A9%20correo%20te%20la%20env%C3%ADo%3F" target="_blank" rel="noopener" data-evento="giftcard-correo">escríbeme
+      por WhatsApp</a> y te lo paso. Una sola cosa: que sea de <strong>amazon.com</strong>, no
+      de amazon.es ni de otro país, porque entre ellas no se cruzan.</p>
+      <a class="ir" href="https://www.amazon.com/gp/gc/" target="_blank" rel="noopener" data-evento="giftcard-amazon">Comprar la tarjeta en Amazon
         <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></a>
     </div>
   </div>
