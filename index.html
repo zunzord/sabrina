@@ -280,6 +280,14 @@ main{position:relative; z-index:2}
   opacity:0; transition:opacity .3s;
 }
 #aviso.visible{opacity:1}
+#pasaron{
+  margin-top:26px; font-size:.82rem; color:var(--oscuro-suave);
+  opacity:0; transition:opacity .8s;
+}
+#pasaron.visible{opacity:1}
+#pasaron b{font-family:'Fraunces',serif; font-weight:400; font-size:1.05rem;
+           color:var(--vino); font-variant-numeric:tabular-nums}
+#pasaron[hidden]{display:none}
 
 #remate{
   position:relative; z-index:2; text-align:center; color:var(--oscuro);
@@ -620,6 +628,7 @@ document.addEventListener('click', function(e){
     </button>
   </div>
   <p id="aviso" role="status" aria-live="polite"></p>
+  <p id="pasaron" hidden></p>
 </section>
 
 <footer id="remate">
@@ -980,6 +989,24 @@ document.addEventListener('click', function(e){
           .catch(aMano);
       } else { aMano(); }
     });
+  }
+
+  /* ------------------------------------------- cuánta gente ha pasado ya */
+  /* Prueba social, pero solo cuando el número ya dice algo: por debajo del
+     umbral el renglón no se muestra. Un "3 personas" desanima más que el
+     silencio. Si la consulta falla, tampoco se muestra: nunca se inventa. */
+    var elP = document.getElementById('pasaron');
+  if (elP && window.fetch){
+    fetch('https://zunzo.goatcounter.com/counter/%2F.json').then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){
+        if (!d || !d.count) return;
+        var n = parseInt(String(d.count).replace(/[^0-9]/g, ''), 10);
+        if (!n || n < 25) return;
+        elP.innerHTML = 'Ya han pasado por aquí <b>' +
+          n.toLocaleString('es-DO') + '</b> personas.';
+        elP.hidden = false;
+        requestAnimationFrame(function(){ elP.classList.add('visible'); });
+      }).catch(function(){});
   }
 })();
 </script>
